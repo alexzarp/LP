@@ -8,6 +8,6 @@ precoRetrato q d
         | q == 6 = 180.00 + s
         | q >= 7 = 185.00 + s 
     where
-        s = if d == "sabado" || "domingo"
-            then (0.2)
-            else return 0.00
+        s = if d == "sabado" || d == "domingo"
+            then ((precoRetrato q "*") * 0.2)
+            else 0.00
