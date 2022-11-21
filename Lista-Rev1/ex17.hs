@@ -1,4 +1,3 @@
-data Produto = Produto_perecivel Integer String Integer Bool
-            |  Produto_nperecivel Integer String String Integer
-            deriving Show
-
+produto :: [Integer] -> [Integer] -> [Integer]
+produto [] [] = []
+produto x y = zipWith (*) x y
