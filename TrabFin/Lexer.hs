@@ -11,20 +11,39 @@ data Expr = BTrue
           | BFalse
           | Num Int 
           | Add Expr Expr 
+          | Sub Expr Expr
+          | Mul Expr Expr
+          | Div Expr Expr
+          | Eq Expr Expr
+          | NoEq Expr Expr
+          | BiEq Expr Expr
+          | SmEq Expr Expr
           | And Expr Expr 
+          | Or Expr Expr
           | If Expr Expr Expr 
           | Var String
           | Lam String Ty Expr 
+          | Colon Expr
+          | Arrow Expr
           | App Expr Expr 
-          | Paren Expr
-          | Eq Expr Expr
+          | LBracket Expr
+          | RBracket Expr
+          | Boll Expr
           deriving (Show, Eq)
 
 data Token = TokenTrue 
            | TokenFalse 
            | TokenNum Int 
            | TokenAdd 
+           | TokenSub
+           | TokenMul
+           | TokenDiv
+           | TokenEq
+           | TokenNoEq
+           | TokenBiEq
+           | TokenSmEq
            | TokenAnd
+           | TokenOr
            | TokenIf 
            | TokenThen
            | TokenElse 
@@ -32,11 +51,10 @@ data Token = TokenTrue
            | TokenLam
            | TokenColon
            | TokenArrow 
-           | TokenLParen
-           | TokenRParen
+           | TokenLBracket
+           | TokenRBracket
            | TokenBoolean
            | TokenNumber
-           | TokenEq
            deriving Show 
 
 isToken :: Char -> Bool
