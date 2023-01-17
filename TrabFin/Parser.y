@@ -20,6 +20,8 @@ import Lexer
     '!='        { TokenNoEq }
     '>='        { TokenBiEq }
     '<='        { TokenSmEq }
+    '>'         { TokenBig }
+    '<'         { TokenSmall }
     "&&"        { TokenAnd }
     "||"        { TokenOr }
     if          { TokenIf }
@@ -64,6 +66,8 @@ Exp     : num                        { Num $1 }
         | Exp "!=" Exp               { NoEq $1 $3 }
         | Exp ">=" Exp               { BiEq $1 $3 }
         | Exp "<=" Exp               { SmEq $1 $3 }
+        | Exp ">" Exp                { Big $1 $3 }
+        | Exp ">" Exp                { Small $1 $3 }
 
 
 Type    : Bool                       { TBool }
