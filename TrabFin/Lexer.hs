@@ -10,7 +10,7 @@ data Ty = TBool
 data Expr = BTrue
           | BFalse
           | Num Int 
-          | Add Expr Expr 
+          | Add Expr Expr
           | Sub Expr Expr
           | Mul Expr Expr
           | Div Expr Expr
@@ -26,8 +26,8 @@ data Expr = BTrue
           | Colon Expr
           | Arrow Expr
           | App Expr Expr 
-          | LBracket Expr
-          | RBracket Expr
+          | LParen Expr
+          | RParen Expr
           | Boll Expr
           deriving (Show, Eq)
 
@@ -51,9 +51,9 @@ data Token = TokenTrue
            | TokenLam
            | TokenColon
            | TokenArrow 
-           | TokenLBracket
-           | TokenRBracket
-           | TokenBoolean
+           | TokenLParen
+           | TokenRParen
+           | TokenBool
            | TokenNumber
            deriving Show 
 
@@ -63,6 +63,9 @@ isToken c = elem c "->&|="
 lexer :: String -> [Token]
 lexer [] = [] 
 lexer ('+':cs) = TokenAdd : lexer cs 
+lexer ('-':cs) = TokenSub : lexer cs
+lexer ('*':cs) = TokenMul : lexer cs
+lexer ('/':cs) = TokenDiv : lexer cs
 lexer ('\\':cs) = TokenLam : lexer cs
 lexer (':':cs) = TokenColon : lexer cs
 lexer ('(':cs) = TokenLParen : lexer cs
@@ -85,12 +88,18 @@ lexKW cs = case span isAlpha cs of
              ("then", rest)  -> TokenThen : lexer rest 
              ("else", rest)  -> TokenElse : lexer rest 
              ("Bool", rest)  -> TokenBoolean : lexer rest 
-             ("Number", rest)  -> TokenNumber : lexer rest 
-             (var, rest)     -> TokenVar var : lexer rest 
+             ("Number", rest)-> TokenNumber : lexer rest 
+             (var, rest)     -> TokenVar var : lexer rest
 
 lexSymbol :: String -> [Token]
 lexSymbol cs = case span isToken cs of
-                   ("->", rest) -> TokenArrow  : lexer rest
-                   ("&&", rest) -> TokenAnd    : lexer rest
-                   ("==", rest) -> TokenEq     : lexer rest
+                   ("==", rest) -> TokenEq    : lexer rest
+                   ("&&", rest) -> TokenAnd   : lexer rest
+                   (">=", rest) -> TokenBiEq  : lexer rest
+                   ("<=", rest) -> TokenSmEq  : lexer rest
+                   (">", rest)  -> TokenBig   : lexer rest
+                   ("<", rest)  -> TokenSmall : lexer rest
+                   ("||", rest) -> TokenOr    : lexer rest
+                   ("!=", rest) -> TokenNoEq  : lexer rest
+                   ("->", rest) -> TokenArrow : lexer rest
                    _ -> error "Lexical error: símbolo inválido!"

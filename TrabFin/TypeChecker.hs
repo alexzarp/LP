@@ -11,9 +11,23 @@ typeof _ (Num _) = Just TNum
 typeof ctx (Add e1 e2) = case (typeof ctx e1, typeof ctx e2) of 
                            (Just TNum, Just TNum) -> Just TNum
                            _                       -> Nothing 
+typeof ctx (Sub e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+                          (Just TNum, Just TNum) -> Just TNum
+                          _                      -> Nothing
+typeof ctx (Mul e1 e2) = (typeof ctx e1, typeof ctx e2) of 
+                           (Just TNum, Just TNum) -> Just TNum
+                           _                       -> Nothing 
+typeof ctx (Div e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+                          (Just TNum, Just TNum) -> Just TNum
+                          _                      -> Nothing
+typeof ctx (LParen e) = typeof ctx e
+typeof ctx (RParen e) = typeof ctx e
 typeof ctx (And e1 e2) = case (typeof ctx e1, typeof ctx  e2) of 
                            (Just TBool, Just TBool) -> Just TBool 
                            _                         -> Nothing
+typeof ctx (Or e1 e2) = case (typeof ctx e1, typeof ctx  e2) of 
+                           (Just TBool, Just TBool) -> Just TBool 
+                           _                         -> Nothing            
 typeof ctx (If e e1 e2) = 
     case typeof ctx e of 
       Just TBool -> case (typeof ctx e1, typeof ctx e2) of 
@@ -38,9 +52,21 @@ typeof ctx (Eq e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                                                 else 
                                                   Nothing
                           _                  -> Nothing
-typeof ctx (Paren e) = typeof ctx e 
+typeof ctx (BiEq e1 e2) = case (typeof ctx e1, typeof ctx e2) of 
+            (Just TNum, Just TNum)   -> Just TNum
+            (Just TBoll, Just TBoll) -> Just TBoll
+            _                        -> Nothing   
 
+typeof ctx (SmEq e1 e1) = case (typeof ctx e1, typeof ctx e2) of
+            (Just TNum, Just TNum)   -> Just TNum
+            (Just TBoll, Just TBoll) -> Just TBoll
+            _                        -> Nothing
 
+typeof ctx (NoEq e1 e1) = case (typeof ctx e1, typeof ctx e2) of
+            (Just TNum, Just TNum)   -> Just TNum
+            (Just TBoll, Just TBoll) -> Just TBoll
+            _                        -> Nothing
+                           
 typecheck :: Expr -> Expr 
 typecheck e = case typeof [] e of 
                 Just _ -> e 
