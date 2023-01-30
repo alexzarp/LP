@@ -15,12 +15,7 @@ import Lexer
     '+'         { TokenAdd }
     '-'         { TokenSub }
     '*'         { TokenMul }
-    '/'         { TokenDiv }
-    '=='        { TokenEq }
-    '!='        { TokenNoEq }
-    '>='        { TokenBiEq }
-    '<='        { TokenSmEq }
-    '>'         { TokenBig }
+    '/'         { TokenDiv }https://github.dev/alexzarp/lp
     '<'         { TokenSmall }
     '&&'        { TokenAnd }
     '||'        { TokenOr }
@@ -37,17 +32,8 @@ import Lexer
     Number      { TokenNumber }
 
 %nonassoc if then else
+%left '*' '/'
 %left '+' '-'
-%left '*'
-%left '/'
-%left '=='
-%left '!='
-%left '>='
-%left '<='
-%left '<'
-%left '>'
-%left '&&'
-%left '||'
 
 %% 
 
