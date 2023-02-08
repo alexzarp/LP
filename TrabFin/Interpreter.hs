@@ -12,7 +12,8 @@ subst x n (App e1 e2) = App (subst x n e1) (subst x n e2)
 subst x n (Add e1 e2) = Add (subst x n e1) (subst x n e2)
 subst x n (And e1 e2) = And (subst x n e1) (subst x n e2)
 subst x n (If e e1 e2) = If (subst x n e) (subst x n e1) (subst x n e2)
-subst x n (Paren e) = Paren (subst x n e)
+subst x n (LParen e) = LParen (subst x n e)
+subst x n (RParen e) = RParen (subst x n e)
 subst x n (Eq e1 e2) = Eq (subst x n e1) (subst x n e2)
 subst x n e = e 
 
@@ -48,7 +49,8 @@ step (App e1@(Lam x t b) e2) | isvalue e2 = Just (subst x e2 b)
 step (App e1 e2) = case step e1 of 
                      Just e1' -> Just (App e1' e2)
                      _        -> Nothing
-step (Paren e) = Just e
+step (LParen e) = Just e
+step (RParen e) = Just e
 step (Eq e1 e2) | isvalue e1 && isvalue e2 = if (e1 == e2) then
                                                Just BTrue 
                                              else 

@@ -15,8 +15,13 @@ import Lexer
     '+'         { TokenAdd }
     '-'         { TokenSub }
     '*'         { TokenMul }
-    '/'         { TokenDiv }https://github.dev/alexzarp/lp
+    '/'         { TokenDiv }
     '<'         { TokenSmall }
+    '>'         { TokenBig }
+    '=='        { TokenEq }
+    '!='        { TokenNoEq }
+    '>='        { TokenSmEq }
+    '<='        { TokenBiEq }
     '&&'        { TokenAnd }
     '||'        { TokenOr }
     if          { TokenIf }

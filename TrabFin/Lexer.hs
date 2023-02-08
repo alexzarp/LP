@@ -39,6 +39,8 @@ data Token = TokenTrue
            | TokenMul
            | TokenDiv
            | TokenEq
+           | TokenBig
+           | TokenSmall
            | TokenNoEq
            | TokenBiEq
            | TokenSmEq
@@ -87,7 +89,7 @@ lexKW cs = case span isAlpha cs of
              ("if", rest)    -> TokenIf : lexer rest 
              ("then", rest)  -> TokenThen : lexer rest 
              ("else", rest)  -> TokenElse : lexer rest 
-             ("Bool", rest)  -> TokenBoolean : lexer rest 
+             ("Bool", rest)  -> TokenBool : lexer rest 
              ("Number", rest)-> TokenNumber : lexer rest 
              (var, rest)     -> TokenVar var : lexer rest
 
