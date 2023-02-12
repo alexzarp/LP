@@ -15,7 +15,7 @@ data Expr = BTrue
           | Mul Expr Expr
           | Div Expr Expr
           | Not Expr
-          | Samll Expr Expr
+          | Small Expr Expr
           | Big Expr Expr
           | Eq Expr Expr
           | NoEq Expr Expr
@@ -29,8 +29,7 @@ data Expr = BTrue
           | Colon Expr
           | Arrow Expr
           | App Expr Expr 
-          | LParen Expr
-          | RParen Expr
+          | Paren Expr
           | Boll Expr
           deriving (Show, Eq)
 

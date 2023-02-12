@@ -9,20 +9,19 @@ typeof _ BTrue = Just TBool
 typeof _ BFalse = Just TBool 
 typeof _ (Num _) = Just TNum
 typeof ctx (Add e1 e2) = case (typeof ctx e1, typeof ctx e2) of 
-                           (Just TNum, Just TNum) -> Just TNum
-                           _                       -> Nothing 
+                          (Just TNum, Just TNum) -> Just TNum
+                          _                       -> Nothing 
 typeof ctx (Sub e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                           (Just TNum, Just TNum) -> Just TNum
                           _                      -> Nothing
-typeof ctx (Mul e1 e2) = (typeof ctx e1, typeof ctx e2) of 
-                           (Just TNum, Just TNum) -> Just TNum
-                           _                       -> Nothing 
+typeof ctx (Mul e1 e2) = case (typeof ctx e1, typeof ctx e2) of 
+                          (Just TNum, Just TNum) -> Just TNum
+                          _                       -> Nothing 
 typeof ctx (Div e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                           (Just TNum, Just TNum) -> Just TNum
                           _                      -> Nothing
 
-typeof ctx (LParen e) = typeof ctx e
-typeof ctx (RParen e) = typeof ctx e
+typeof ctx (Paren e) = typeof ctx e
 typeof ctx (And e1 e2) = case (typeof ctx e1, typeof ctx  e2) of 
                            (Just TBool, Just TBool) -> Just TBool 
                            _                         -> Nothing

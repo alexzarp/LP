@@ -20,6 +20,7 @@ import Lexer
     '>'         { TokenBig }
     "=="        { TokenEq }
     '!='        { TokenNoEq }
+    '!'         { TokenNot }
     '>='        { TokenSmEq }
     '<='        { TokenBiEq }
     "&&"        { TokenAnd }
@@ -28,19 +29,21 @@ import Lexer
     then        { TokenThen }
     else        { TokenElse }
     var         { TokenVar $$ }
+    let         { TokenLet }
     '\\'        { TokenLam }
     ':'         { TokenColon }
     "->"        { TokenArrow }
     '('         { TokenLParen }
     ')'         { TokenRParen }
-    Bool        { TokenBoolean }
+    Bool        { TokenBool }
     Number      { TokenNumber }
 
 %nonassoc if then else
 %left '*' '/'
-%left "&&"
-%left "=="
-%left '+' '-' '>' '<' '!=' '>=' '<='
+%left '+' '-'
+%right '!'
+%left "&&" "||"
+%left '==' '>' '<' '!=' '>=' '<='
 
 %% 
 
@@ -64,6 +67,7 @@ Exp     : num                        { Num $1 }
         | Exp '<=' Exp               { SmEq $1 $3 }
         | Exp '>' Exp                { Big $1 $3 }
         | Exp '>' Exp                { Small $1 $3 }
+        | '!' Exp                    { Not $1 }
 
 
 Type    : Bool                       { TBool }
