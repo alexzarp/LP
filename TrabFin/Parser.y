@@ -16,6 +16,7 @@ import Lexer
     '-'         { TokenSub }
     '*'         { TokenMul }
     '/'         { TokenDiv }
+    '='         { TokenAssig }
     '<'         { TokenSmall }
     '>'         { TokenBig }
     "=="        { TokenEq }
@@ -30,6 +31,7 @@ import Lexer
     else        { TokenElse }
     var         { TokenVar $$ }
     let         { TokenLet }
+    in          { TokenIn }
     '\\'        { TokenLam }
     ':'         { TokenColon }
     "->"        { TokenArrow }
@@ -59,6 +61,7 @@ Exp     : num                        { Num $1 }
         | Exp '||' Exp               { Or $1 $3 }
         | if Exp then Exp else Exp   { If $2 $4 $6 }
         | '\\' var ':' Type "->" Exp { Lam $2 $4 $6 }
+        | let var '=' Exp in Exp     { Let $2 $4 $6 }
         | Exp Exp                    { App $1 $2 }
         | '(' Exp ')'                { Paren $2 }
         | Exp "==" Exp               { Eq $1 $3 }
@@ -67,7 +70,7 @@ Exp     : num                        { Num $1 }
         | Exp '<=' Exp               { SmEq $1 $3 }
         | Exp '>' Exp                { Big $1 $3 }
         | Exp '>' Exp                { Small $1 $3 }
-        | '!' Exp                    { Not $1 }
+        | '!' Exp                    { Not $2 }
 
 
 Type    : Bool                       { TBool }

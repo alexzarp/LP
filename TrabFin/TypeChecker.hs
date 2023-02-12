@@ -58,9 +58,9 @@ typeof ctx (App t1 t2) = case (typeof ctx t1, typeof ctx t2) of
 typeof ctx (Or e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                           (Just TNum, Just TNum) -> Just TBoll
                           _                      -> Nothing
--- typeof ctx (NoEq e1 e2) = case (typeof ctx e1, typeof ctx e2) of
---                           (Just TNum, Just TNum) -> Just TBoll
---                           _                      -> Nothing
+typeof ctx (NoEq e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+                          (Just TNum, Just TNum) -> Just TBoll
+                          _                      -> Nothing
 typeof ctx (And e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                           (Just TNum, Just TNum) -> Just TBoll
                           _                      -> Nothing    

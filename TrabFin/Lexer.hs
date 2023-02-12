@@ -55,6 +55,7 @@ data Token = TokenTrue
            | TokenLam
            | TokenLet
            | TokenIn
+           | TokenAssig
            | TokenNot
            | TokenColon
            | TokenArrow 
@@ -112,4 +113,5 @@ lexSymbol cs = case span isToken cs of
                    ("||", rest) -> TokenOr    : lexer rest
                    ("!=", rest) -> TokenNoEq  : lexer rest
                    ("->", rest) -> TokenArrow : lexer rest
+                   ("=", rest) -> TokenAssig : lexer rest
                    _ -> error "Lexical error: símbolo inválido!"
