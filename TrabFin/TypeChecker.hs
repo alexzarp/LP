@@ -20,6 +20,7 @@ typeof ctx (Mul e1 e2) = (typeof ctx e1, typeof ctx e2) of
 typeof ctx (Div e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                           (Just TNum, Just TNum) -> Just TNum
                           _                      -> Nothing
+
 typeof ctx (LParen e) = typeof ctx e
 typeof ctx (RParen e) = typeof ctx e
 typeof ctx (And e1 e2) = case (typeof ctx e1, typeof ctx  e2) of 
@@ -38,6 +39,14 @@ typeof ctx (If e e1 e2) =
                       _                  -> Nothing 
       _          -> Nothing
 typeof ctx (Var v) = lookup v ctx 
+
+typeof ctx (Let x e1 e2) = case (typeof ctx e1, typeof ctx (subst x e1 e2)) of 
+                            (Just t1, Just t2) -> if t1 == t2 then
+                                                    Just t1
+                                                  else
+                                                    Nothing
+                            _                   -> Nothing 
+
 typeof ctx (Lam v t1 b) = let Just t2 = typeof ((v, t1):ctx) b 
                             in Just (TFun t1 t2)
 typeof ctx (App t1 t2) = case (typeof ctx t1, typeof ctx t2) of 
@@ -45,7 +54,17 @@ typeof ctx (App t1 t2) = case (typeof ctx t1, typeof ctx t2) of
                                                                Just t12 
                                                              else 
                                                                Nothing
-                           _                              -> Nothing 
+                           _                              -> Nothing
+
+typeof ctx (Or e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+                          (Just TNum, Just TNum) -> Just TBoll
+                          _                      -> Nothing
+-- typeof ctx (NoEq e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+--                           (Just TNum, Just TNum) -> Just TBoll
+--                           _                      -> Nothing
+typeof ctx (And e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+                          (Just TNum, Just TNum) -> Just TBoll
+                          _                      -> Nothing    
 typeof ctx (Eq e1 e2) = case (typeof ctx e1, typeof ctx e2) of 
                           (Just t1, Just t2) -> if t1 == t2 then
                                                   Just TBool
@@ -63,6 +82,16 @@ typeof ctx (SmEq e1 e1) = case (typeof ctx e1, typeof ctx e2) of
             _                        -> Nothing
 
 typeof ctx (NoEq e1 e1) = case (typeof ctx e1, typeof ctx e2) of
+            (Just TNum, Just TNum)   -> Just TNum
+            (Just TBoll, Just TBoll) -> Just TBoll
+            _                        -> Nothing
+
+typeof ctx (Small e1 e1) = case (typeof ctx e1, typeof ctx e2) of
+            (Just TNum, Just TNum)   -> Just TNum
+            (Just TBoll, Just TBoll) -> Just TBoll
+            _                        -> Nothing
+
+typeof ctx (Big e1 e1) = case (typeof ctx e1, typeof ctx e2) of
             (Just TNum, Just TNum)   -> Just TNum
             (Just TBoll, Just TBoll) -> Just TBoll
             _                        -> Nothing

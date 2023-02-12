@@ -5,6 +5,10 @@ import Parser
 import TypeChecker
 import Interpreter 
 
---main = getContents >>= print . eval . typecheck . parser . lexer
+-- main = getContents >>= print . eval . typecheck . parser . lexer
 
-main = getContents >>= print . parser
+-- main = getContents >>= print . typecheck . parser . lexer
+
+main = getContents >>= print . parser . lexer
+
+-- Pares, Tuplas, Records, Listas.
