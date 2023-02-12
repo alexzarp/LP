@@ -29,8 +29,10 @@ data Expr = BTrue
           | Colon Expr
           | Arrow Expr
           | App Expr Expr 
+          | Let String Expr Expr
           | Paren Expr
-          | Boll Expr
+          | Bracket [Expr]
+        --   | Boll Expr
           deriving (Show, Eq)
 
 data Token = TokenTrue 
@@ -61,6 +63,8 @@ data Token = TokenTrue
            | TokenArrow 
            | TokenLParen
            | TokenRParen
+           | TokenLBracket
+           | TokenRBracket
            | TokenBool
            | TokenNumber
            deriving Show 
@@ -79,6 +83,8 @@ lexer ('\\':cs) = TokenLam : lexer cs
 lexer (':':cs) = TokenColon : lexer cs
 lexer ('(':cs) = TokenLParen : lexer cs
 lexer (')':cs) = TokenRParen : lexer cs
+lexer ('[':cs) = TokenLBracket : lexer cs
+lexer (']':cs) = TokenRBracket : lexer cs
 lexer (c:cs) | isSpace c = lexer cs 
              | isDigit c = lexNum (c:cs)
              | isAlpha c = lexKW (c:cs)

@@ -37,6 +37,8 @@ import Lexer
     "->"        { TokenArrow }
     '('         { TokenLParen }
     ')'         { TokenRParen }
+--     '['         { TokenLBracket }
+--     ']'         { TokenRBracket }
     Bool        { TokenBool }
     Number      { TokenNumber }
 
@@ -64,6 +66,7 @@ Exp     : num                        { Num $1 }
         | let var '=' Exp in Exp     { Let $2 $4 $6 }
         | Exp Exp                    { App $1 $2 }
         | '(' Exp ')'                { Paren $2 }
+        -- | '[' Exp ']'                { Bracket $2 }
         | Exp "==" Exp               { Eq $1 $3 }
         | Exp '!=' Exp               { NoEq $1 $3 }
         | Exp '>=' Exp               { BiEq $1 $3 }
