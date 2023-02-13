@@ -11,6 +11,9 @@ import Lexer
 %token
     true        { TokenTrue }
     false       { TokenFalse }
+    first       { TokenFirst }
+    second      { TokenSecond }
+    empty       { TokenEmpty }
     num         { TokenNum $$ }
     '+'         { TokenAdd }
     '-'         { TokenSub }
@@ -75,7 +78,9 @@ Exp     : num                        { Num $1 }
         | Exp '>' Exp                { Big $1 $3 }
         | Exp '<' Exp                { Small $1 $3 }
         | '!' Exp                    { Not $2 }
-        | num '(' Exp ',' Exp ')'    { Pair $1 $3 $5 }
+        | first '(' Exp ',' Exp ')'    { Pair First $3 $5 }
+        | second '(' Exp ',' Exp ')'   { Pair Second $3 $5 }
+        | empty '(' Exp ',' Exp ')'        { Pair Empty $3 $5 }
 
 
 Type    : Bool                       { TBool }

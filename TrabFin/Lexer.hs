@@ -2,6 +2,11 @@ module Lexer where
 
 import Data.Char 
 
+data Pos = First
+         | Second
+         | Empty
+         deriving (Show, Eq)
+
 data Ty = TBool
         | TNum
         | TPair
@@ -33,7 +38,7 @@ data Expr = BTrue
           | Let String Expr Expr
           | Paren Expr
           -- | Bracket [Expr]
-          | Pair Int Expr Expr
+          | Pair Pos Expr Expr
         --   | Boll Expr
           deriving (Show, Eq)
 
@@ -70,6 +75,9 @@ data Token = TokenTrue
            | TokenBool
            | TokenNumber
            | TokenComm
+           | TokenFirst
+           | TokenSecond
+           | TokenEmpty
            deriving Show 
 
 isToken :: Char -> Bool
@@ -99,8 +107,11 @@ lexNum cs = case span isDigit cs of
 
 lexKW :: String -> [Token]
 lexKW cs = case span isAlpha cs of 
-             ("true", rest)  -> TokenTrue : lexer rest 
-             ("false", rest) -> TokenFalse : lexer rest 
+             ("empty", rest)  -> TokenEmpty : lexer rest 
+             ("first", rest)  -> TokenFirst : lexer rest 
+             ("second", rest) -> TokenSecond : lexer rest 
+             ("false", rest) -> TokenFalse : lexer rest
+             ("true", rest) -> TokenTrue : lexer rest 
              ("if", rest)    -> TokenIf : lexer rest 
              ("then", rest)  -> TokenThen : lexer rest 
              ("else", rest)  -> TokenElse : lexer rest 
