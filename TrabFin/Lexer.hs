@@ -4,6 +4,7 @@ import Data.Char
 
 data Ty = TBool
         | TNum
+        | TPair
         | TFun Ty Ty 
         deriving (Show, Eq)
 
@@ -31,7 +32,8 @@ data Expr = BTrue
           | App Expr Expr 
           | Let String Expr Expr
           | Paren Expr
-          | Bracket [Expr]
+          -- | Bracket [Expr]
+          | Pair Int Expr Expr
         --   | Boll Expr
           deriving (Show, Eq)
 
@@ -67,6 +69,7 @@ data Token = TokenTrue
            | TokenRBracket
            | TokenBool
            | TokenNumber
+           | TokenComm
            deriving Show 
 
 isToken :: Char -> Bool
@@ -74,6 +77,7 @@ isToken c = elem c "->&|="
 
 lexer :: String -> [Token]
 lexer [] = [] 
+lexer (',':cs) = TokenComm : lexer cs
 lexer ('+':cs) = TokenAdd : lexer cs 
 lexer ('-':cs) = TokenSub : lexer cs
 lexer ('*':cs) = TokenMul : lexer cs

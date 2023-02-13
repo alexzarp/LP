@@ -40,12 +40,12 @@ typeof ctx (If e e1 e2) =
       _          -> Nothing
 typeof ctx (Var v) = lookup v ctx 
 
--- typeof ctx (Let x e1 e2) = case (typeof ctx e1, typeof ctx (subst x e1 e2)) of
---                             (Just t1, Just t2) -> if t1 == t2 then
---                                                     Just t1
---                                                   else
---                                                     Nothing
---                             _                   -> Nothing 
+typeof ctx (Let x e1 e2) = case (typeof ctx e1, typeof ctx (subst x e1 e2)) of
+                            (Just t1, Just t2) -> if t1 == t2 then
+                                                    Just t1
+                                                  else
+                                                    Nothing
+                            _                   -> Nothing
 
 typeof ctx (Lam v t1 b) = let Just t2 = typeof ((v, t1):ctx) b 
                             in Just (TFun t1 t2)
@@ -84,6 +84,14 @@ typeof ctx (Big e1 e2) = case (typeof ctx e1, typeof ctx e2) of
             (Just TNum, Just TNum)   -> Just TNum
             (Just TBool, Just TBool) -> Just TBool
             _                        -> Nothing
+
+-- typeof ctx (Add e1 e2) = case (typeof ctx e1, typeof ctx e2) of 
+--                           (Just TNum, Just TNum) -> Just TNum
+--                           _                       -> Nothing 
+
+typeof ctx (Pair _ e1 e2) = | (typeof ctx e1, typeof ctx e2) of
+                              (Just _, Just _) -> Just TPair
+                              _                      -> Nothing
                            
 typecheck :: Expr -> Expr 
 typecheck e = case typeof [] e of 
