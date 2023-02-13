@@ -75,7 +75,7 @@ Exp     : num                        { Num $1 }
         | Exp '>' Exp                { Big $1 $3 }
         | Exp '>' Exp                { Small $1 $3 }
         | '!' Exp                    { Not $2 }
-        | Exp '(' Exp ',' Exp ')'        { Pair $0 $2 $4}
+        | Exp '(' Exp ',' Exp ')'    { Pair $0 $2 $4 }
 
 
 Type    : Bool                       { TBool }

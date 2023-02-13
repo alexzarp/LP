@@ -158,8 +158,8 @@ step (Not e1) = case step e1 of
 ------------------------------------------------------------------
 
 step (Pair e e1 e2) | isvalue e1 && isvalue e2 = case e of
-                                0 -> Just e1
-                                1 -> Just e2
+                                frst -> Just e1
+                                scnd -> Just e2
                                 _ -> Nothing
                     | isvalue e1 = case step e2 of
                               Just e2' -> Just (Pair e e1 e2')
