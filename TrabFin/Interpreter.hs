@@ -31,8 +31,10 @@ isvalue BTrue = True
 isvalue BFalse = True
 isvalue (Num _) = True
 isvalue (Lam _ _ _) = True 
+isvalue (Pair First _ _) = False
+isvalue (Pair Second _ _) = False
+isvalue (Pair _ _ _) = True
 isvalue _ = False 
-isvalue (Pair Empty _ _) = True
 
 numConv :: Expr -> Int
 numConv (Num e) = e
@@ -161,7 +163,7 @@ step (Let x e1 e2) | isvalue e1 = Just (subst x e1 e2)
 step (Pair e e1 e2) | isvalue e1 && isvalue e2 = case e of
                                 First -> Just e1
                                 Second -> Just e2
-                                Empty -> Just (Pair e e1 e2)
+                                _ -> Just (Pair e e1 e2)
                     | isvalue e1 = case step e2 of
                               Just e2' -> Just (Pair e e1 e2')
                               _        -> Nothing

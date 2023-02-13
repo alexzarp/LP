@@ -9,7 +9,7 @@ data Pos = First
 
 data Ty = TBool
         | TNum
-        | TPair
+        | TPair Ty Ty
         | TFun Ty Ty 
         deriving (Show, Eq)
 

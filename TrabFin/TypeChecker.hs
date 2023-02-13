@@ -89,9 +89,9 @@ typeof ctx (Big e1 e2) = case (typeof ctx e1, typeof ctx e2) of
 --                           (Just TNum, Just TNum) -> Just TNum
 --                           _                       -> Nothing 
 
--- typeof ctx (Pair _ e1 e2) = | (typeof ctx e1, typeof ctx e2) of
---                               (Just _, Just _) -> Just TPair
---                               _                      -> Nothing
+typeof ctx (Pair _ e1 e2) = case (typeof ctx e1, typeof ctx e2) of
+                              (Just t1, Just t2) -> Just (TPair t1 t2) 
+                              _                      -> Nothing
                            
 typecheck :: Expr -> Expr 
 typecheck e = case typeof [] e of 
