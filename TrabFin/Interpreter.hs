@@ -148,25 +148,25 @@ step (Not e1) = case step e1 of
                      _        -> Nothing
 ------------------------------------------------------------------
 -- step (Let x n b) = Just (subst x n b)
--- step (Let x e1 e2) | isvalue e1 = Just (subst x e1 e2)
---                    | otherwise = case step e2 of 
---                               Just x -> Just (Let step e1) e2
-                  --  _              -> Nothing
+step (Let x e1 e2) | isvalue e1 = Just (subst x e1 e2)
+                   | otherwise = case step e1 of 
+                                  Just e1' -> Just (Let x e1' e2)
+                                  _              -> Nothing
 -- subst x n (Let y t1 t2) = Let y t1' t2'
 --                             where t1' = subst x n t1
 --                                   t2' = subst x n t2
 ------------------------------------------------------------------
 
-step (Pair e e1 e2) | isvalue e1 && isvalue e2 = case e of
-                                frst -> Just e1
-                                scnd -> Just e2
-                                _ -> Nothing
-                    | isvalue e1 = case step e2 of
-                              Just e2' -> Just (Pair e e1 e2')
-                              _        -> Nothing
-                    | isvalue e2 = case step e1 of
-                              Just e1' -> Just (Pair e e1' e2)
-                              _        -> Nothing
+-- step (Pair e e1 e2) | isvalue e1 && isvalue e2 = case e of
+--                                 frst -> Just e1
+--                                 scnd -> Just e2
+--                                 _ -> Nothing
+--                     | isvalue e1 = case step e2 of
+--                               Just e2' -> Just (Pair e e1 e2')
+--                               _        -> Nothing
+--                     | isvalue e2 = case step e1 of
+--                               Just e1' -> Just (Pair e e1' e2)
+--                               _        -> Nothing
 
 
 

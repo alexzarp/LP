@@ -73,16 +73,14 @@ data Token = TokenTrue
            deriving Show 
 
 isToken :: Char -> Bool
-isToken c = elem c "->&|="
+isToken c = elem c "->&|=!"
 
 lexer :: String -> [Token]
 lexer [] = [] 
 lexer (',':cs) = TokenComm : lexer cs
 lexer ('+':cs) = TokenAdd : lexer cs 
-lexer ('-':cs) = TokenSub : lexer cs
 lexer ('*':cs) = TokenMul : lexer cs
 lexer ('/':cs) = TokenDiv : lexer cs
-lexer ('!':cs) = TokenNot : lexer cs
 lexer ('\\':cs) = TokenLam : lexer cs
 lexer (':':cs) = TokenColon : lexer cs
 lexer ('(':cs) = TokenLParen : lexer cs
@@ -124,4 +122,6 @@ lexSymbol cs = case span isToken cs of
                    ("!=", rest) -> TokenNoEq  : lexer rest
                    ("->", rest) -> TokenArrow : lexer rest
                    ("=", rest) -> TokenAssig : lexer rest
+                   ("!", rest) -> TokenNot : lexer rest
+                   ("-", rest) -> TokenSub : lexer rest
                    _ -> error "Lexical error: símbolo inválido!"

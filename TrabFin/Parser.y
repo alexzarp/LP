@@ -58,8 +58,8 @@ Exp     : num                        { Num $1 }
         | true                       { BTrue }
         | Exp '+' Exp                { Add $1 $3 }
         | Exp '-' Exp                { Sub $1 $3 }
-        | Exp '/' Exp                { Sub $1 $3 }
-        | Exp '*' Exp                { Sub $1 $3 }
+        | Exp '/' Exp                { Div $1 $3 }
+        | Exp '*' Exp                { Mul $1 $3 }
         | Exp "&&" Exp               { And $1 $3 }
         | Exp '||' Exp               { Or $1 $3 }
         | if Exp then Exp else Exp   { If $2 $4 $6 }
@@ -73,9 +73,9 @@ Exp     : num                        { Num $1 }
         | Exp '>=' Exp               { BiEq $1 $3 }
         | Exp '<=' Exp               { SmEq $1 $3 }
         | Exp '>' Exp                { Big $1 $3 }
-        | Exp '>' Exp                { Small $1 $3 }
+        | Exp '<' Exp                { Small $1 $3 }
         | '!' Exp                    { Not $2 }
-        | Exp '(' Exp ',' Exp ')'    { Pair $0 $2 $4 }
+        | num '(' Exp ',' Exp ')'    { Pair $1 $3 $5 }
 
 
 Type    : Bool                       { TBool }
